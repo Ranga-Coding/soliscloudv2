@@ -18,6 +18,14 @@ class Soliscloud extends utils.Adapter {
     this.on("unload", this.onUnload.bind(this));
   }
 
+
+  splitList(value) {
+    if (value === null || value === undefined) return undefined;
+    const s = String(value).trim();
+    if (!s) return undefined;
+    return s.split(",").map(v => v.trim()).filter(Boolean);
+  }
+
   async onReady() {
     await this.setObjectNotExistsAsync("info.connection", {
       type: "state",
