@@ -1,0 +1,49 @@
+{
+  "common": {
+    "name": "soliscloudv2",
+    "version": "0.0.1",
+    "title": "SolisCloudV2",
+    "desc": {
+      "de": "Liest SolisCloud API Daten und legt alle Parameter als States ab",
+      "en": "Reads SolisCloud API data and stores all parameters as states"
+    },
+    "platform": "Javascript/Node.js",
+    "mode": "daemon",
+    "icon": "soliscloudv2.png",
+    "main": "build/main.js",
+    "enabled": true,
+    "readme": "README.md",
+    "type": "energy",
+    "keywords": [
+      "solis",
+      "pv",
+      "inverter",
+      "cloud"
+    ],
+    "extIcon": ""
+  },
+  "native": {
+    "apiId": "",
+    "apiSecret": "",
+    "baseUrl": "https://www.soliscloud.com:13333",
+    "pollIntervalSec": 300,
+    "staticIntervalMin": 360,
+    "staticJitterSec": 15,
+    "arrayMode": "index",
+    "stationIds": "",
+    "inverterSNs": "",
+    "enableStationDay": true,
+    "enableStationDetail": true,
+    "enableAlarmList": true,
+    "enableInverterList": true,
+    "enableInverterDay": true,
+    "enableInverterDetail": true,
+    "enableEpm": false,
+    "enableCollector": false,
+    "enableWeather": false,
+    "requestTimeoutMs": 20000,
+    "logRawResponses": false
+  },
+  "objects": [],
+  "instanceObjects": []
+}

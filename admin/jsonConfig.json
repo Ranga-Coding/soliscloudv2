@@ -1,0 +1,304 @@
+{
+  "i18n": true,
+  "type": "tabs",
+  "items": {
+    "tab_connection": {
+      "type": "panel",
+      "label": {
+        "de": "Verbindung",
+        "en": "Connection"
+      },
+      "items": {
+        "apiId": {
+          "type": "text",
+          "label": {
+            "de": "API ID",
+            "en": "API ID"
+          },
+          "help": {
+            "de": "API ID aus dem SolisCloud API Zugang.",
+            "en": "API ID from your SolisCloud API access."
+          },
+          "sm": 12,
+          "md": 6
+        },
+        "apiSecret": {
+          "type": "password",
+          "label": {
+            "de": "API Secret",
+            "en": "API Secret"
+          },
+          "help": {
+            "de": "API Secret (wird verschl\u00fcsselt gespeichert).",
+            "en": "API Secret (stored encrypted)."
+          },
+          "sm": 12,
+          "md": 6
+        },
+        "baseUrl": {
+          "type": "text",
+          "label": {
+            "de": "Base URL",
+            "en": "Base URL"
+          },
+          "help": {
+            "de": "Standard: https://www.soliscloud.com:13333 (je nach Region ggf. abweichend).",
+            "en": "Default: https://www.soliscloud.com:13333 (may differ by region)."
+          },
+          "default": "https://www.soliscloud.com:13333",
+          "sm": 12,
+          "md": 12
+        }
+      }
+    },
+    "tab_polling": {
+      "type": "panel",
+      "label": {
+        "de": "Polling",
+        "en": "Polling"
+      },
+      "items": {
+        "pollIntervalSec": {
+          "type": "number",
+          "label": {
+            "de": "Intervall (Sekunden)",
+            "en": "Interval (seconds)"
+          },
+          "help": {
+            "de": "Wie oft Daten von SolisCloud abgerufen werden. Empfehlung: >= 300s (5 Minuten).",
+            "en": "How often to poll SolisCloud. Recommended: >= 300s (5 minutes)."
+          },
+          "min": 30,
+          "max": 86400,
+          "default": 300,
+          "sm": 12,
+          "md": 6
+        },
+        "staticIntervalMin": {
+          "type": "number",
+          "label": {
+            "de": "Stammdaten Intervall (Min)",
+            "en": "Static data interval (min)"
+          },
+          "help": {
+            "de": "Wie oft relativ statische Daten (Detail/Listen) aktualisiert werden. Empfehlung: 360 (6h) oder 1440 (24h).",
+            "en": "How often to refresh relatively static data (details/lists). Recommended: 360 (6h) or 1440 (24h)."
+          },
+          "min": 10,
+          "max": 10080,
+          "default": 360,
+          "sm": 12,
+          "md": 6
+        },
+        "staticJitterSec": {
+          "type": "number",
+          "label": {
+            "de": "Stammdaten Jitter (Sek)",
+            "en": "Static data jitter (sec)"
+          },
+          "help": {
+            "de": "Zuf\u00e4llige Verz\u00f6gerung, um Lastspitzen zu vermeiden (bei mehreren Instanzen).",
+            "en": "Random delay to avoid load spikes (multiple instances)."
+          },
+          "min": 0,
+          "max": 600,
+          "default": 15,
+          "sm": 12,
+          "md": 6
+        },
+        "arrayMode": {
+          "type": "select",
+          "label": {
+            "de": "Array-Speicherstrategie",
+            "en": "Array storage mode"
+          },
+          "help": {
+            "de": "index: Arrays als .0 .1 .2\u2026 States; json: gesamtes Array als JSON-String.",
+            "en": "index: store arrays as .0 .1 .2\u2026 states; json: store whole array as JSON string."
+          },
+          "options": [
+            {
+              "label": "index",
+              "value": "index"
+            },
+            {
+              "label": "json",
+              "value": "json"
+            }
+          ],
+          "default": "index",
+          "sm": 12,
+          "md": 6
+        },
+        "enableStationDay": {
+          "type": "checkbox",
+          "label": {
+            "de": "stationDay abrufen",
+            "en": "Fetch stationDay"
+          },
+          "default": true,
+          "sm": 12,
+          "md": 4
+        },
+        "enableStationDetail": {
+          "type": "checkbox",
+          "label": {
+            "de": "stationDetail abrufen",
+            "en": "Fetch stationDetail"
+          },
+          "help": {
+            "de": "Station-Detaildaten sind relativ statisch; werden im Stammdaten-Intervall geladen.",
+            "en": "Station detail data is fairly static; fetched on the static interval."
+          },
+          "default": true,
+          "sm": 12,
+          "md": 4
+        },
+        "enableAlarmList": {
+          "type": "checkbox",
+          "label": {
+            "de": "alarmList abrufen",
+            "en": "Fetch alarmList"
+          },
+          "default": true,
+          "sm": 12,
+          "md": 4
+        },
+        "enableInverterList": {
+          "type": "checkbox",
+          "label": {
+            "de": "inverterList abrufen",
+            "en": "Fetch inverterList"
+          },
+          "default": true,
+          "sm": 12,
+          "md": 4
+        },
+        "enableInverterDay": {
+          "type": "checkbox",
+          "label": {
+            "de": "inverterDay abrufen",
+            "en": "Fetch inverterDay"
+          },
+          "default": true,
+          "sm": 12,
+          "md": 4
+        },
+        "enableInverterDetail": {
+          "type": "checkbox",
+          "label": {
+            "de": "inverterDetail abrufen",
+            "en": "Fetch inverterDetail"
+          },
+          "default": true,
+          "sm": 12,
+          "md": 4
+        },
+        "enableEpm": {
+          "type": "checkbox",
+          "label": {
+            "de": "EPM (epmList/epmDetail/epmDay) abrufen",
+            "en": "Fetch EPM (epmList/epmDetail/epmDay)"
+          },
+          "default": false,
+          "sm": 12,
+          "md": 6
+        },
+        "enableCollector": {
+          "type": "checkbox",
+          "label": {
+            "de": "Collector (collectorList/collectorDetail/collectorDay) abrufen",
+            "en": "Fetch Collector (collectorList/collectorDetail/collectorDay)"
+          },
+          "default": false,
+          "sm": 12,
+          "md": 6
+        },
+        "enableWeather": {
+          "type": "checkbox",
+          "label": {
+            "de": "Weather (weatherList/weatherDetail) abrufen",
+            "en": "Fetch Weather (weatherList/weatherDetail)"
+          },
+          "default": false,
+          "sm": 12,
+          "md": 6
+        }
+      }
+    },
+    "tab_filter": {
+      "type": "panel",
+      "label": {
+        "de": "Filter",
+        "en": "Filters"
+      },
+      "items": {
+        "stationIds": {
+          "type": "text",
+          "label": {
+            "de": "Station IDs (CSV, optional)",
+            "en": "Station IDs (CSV, optional)"
+          },
+          "help": {
+            "de": "Leer lassen = alle. Beispiel: 12345,67890",
+            "en": "Leave empty = all. Example: 12345,67890"
+          },
+          "sm": 12,
+          "md": 12
+        },
+        "inverterSNs": {
+          "type": "text",
+          "label": {
+            "de": "Inverter SNs (CSV, optional)",
+            "en": "Inverter SNs (CSV, optional)"
+          },
+          "help": {
+            "de": "Leer lassen = alle. Beispiel: 7A1B...,8C2D...",
+            "en": "Leave empty = all. Example: 7A1B...,8C2D..."
+          },
+          "sm": 12,
+          "md": 12
+        }
+      }
+    },
+    "tab_advanced": {
+      "type": "panel",
+      "label": {
+        "de": "Erweitert",
+        "en": "Advanced"
+      },
+      "items": {
+        "requestTimeoutMs": {
+          "type": "number",
+          "label": {
+            "de": "HTTP Timeout (ms)",
+            "en": "HTTP timeout (ms)"
+          },
+          "help": {
+            "de": "Timeout pro Request. Standard 20000 ms.",
+            "en": "Timeout per request. Default 20000 ms."
+          },
+          "min": 1000,
+          "max": 120000,
+          "default": 20000,
+          "sm": 12,
+          "md": 6
+        },
+        "logRawResponses": {
+          "type": "checkbox",
+          "label": {
+            "de": "Roh-Responses ins Log (Debug)",
+            "en": "Log raw responses (debug)"
+          },
+          "help": {
+            "de": "Kann Logs sehr gro\u00df machen. Nur zur Fehlersuche.",
+            "en": "May produce very large logs. Use only for troubleshooting."
+          },
+          "default": false,
+          "sm": 12,
+          "md": 6
+        }
+      }
+    }
+  }
+}
