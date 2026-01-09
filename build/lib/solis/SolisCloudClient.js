@@ -3,13 +3,16 @@
 const crypto = require("node:crypto");
 const axios = require("axios");
 
+// Must be EXACTLY identical in signature string and in HTTP header
+const CONTENT_TYPE = "application/json;charset=UTF-8";
+
 class SolisCloudClient {
   constructor(opt) {
     this.opt = opt;
     this.http = axios.create({
       baseURL: String(opt.baseUrl || "").replace(/\/+$/, ""),
       timeout: opt.timeoutMs ?? 20000,
-      headers: { "Content-Type": contentType },
+      headers: { "Content-Type": CONTENT_TYPE },
       validateStatus: () => true
     });
   }
@@ -17,14 +20,13 @@ class SolisCloudClient {
   async post(path, body = {}) {
     const canonicalizedResource = path.startsWith("/") ? path : `/${path}`;
     const jsonBody = JSON.stringify(body ?? {});
-    const contentType = contentType;
     const contentMd5 = this.computeContentMd5(jsonBody);
     const date = this.gmtNowString();
 
     const signPayload = [
       "POST",
       contentMd5,
-      contentType,
+      CONTENT_TYPE,
       date,
       canonicalizedResource
     ].join("\n");
@@ -35,6 +37,7 @@ class SolisCloudClient {
     const res = await this.http.post(canonicalizedResource, jsonBody, {
       headers: {
         "Content-MD5": contentMd5,
+        "Content-Type": CONTENT_TYPE,
         "Date": date,
         "Authorization": authorization
       }
@@ -67,3 +70,4 @@ class SolisCloudClient {
 }
 
 module.exports = { SolisCloudClient };
+
