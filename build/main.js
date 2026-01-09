@@ -59,7 +59,7 @@ class Soliscloud extends utils.Adapter {
       ? String(this.config.inverterSNs).split(",").map(s => s.trim()).filter(Boolean)
       : undefined;
 
-    this.poller = new Poller(this, client, {
+    const pollerOpts = {
       pollIntervalSec,
       staticIntervalMin,
       staticJitterSec,
@@ -117,7 +117,26 @@ class Soliscloud extends utils.Adapter {
       enableAmmeterDetail: !!this.config.enableAmmeterDetail,
 
       logRawResponses: !!this.config.logRawResponses
-    });
+    };
+    // Apply preset: summary-only mode disables curve/chart endpoints to avoid huge object trees
+    if ((this.config.dataMode ?? "summary") === "summary") {
+      pollerOpts.enableStationDay = false;
+      pollerOpts.enableStationMonth = false;
+      pollerOpts.enableStationYear = false;
+      pollerOpts.enableStationAll = false;
+
+      pollerOpts.enableInverterDay = false;
+      pollerOpts.enableInverterMonth = false;
+      pollerOpts.enableInverterYear = false;
+      pollerOpts.enableInverterAll = false;
+
+      // Keep realtime + totals via detail/list endpoints
+      pollerOpts.enableStationDetail = true;
+      pollerOpts.enableStationDetailList = true;
+      pollerOpts.enableInverterDetailList = true;
+    }
+
+    this.poller = new Poller(this, client, pollerOpts);
 
     this.setState("info.connection", true, true);
     this.poller.start();

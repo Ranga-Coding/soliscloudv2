@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "soliscloudv2",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "title": "SolisCloudV2",
     "desc": {
       "de": "Liest SolisCloud API Daten und legt alle Parameter als States ab",
@@ -76,7 +76,8 @@
     "enableWeatherList": false,
     "enableWeatherDetail": false,
     "enableAmmeterList": false,
-    "enableAmmeterDetail": false
+    "enableAmmeterDetail": false,
+    "dataMode": "summary"
   },
   "objects": [],
   "instanceObjects": []

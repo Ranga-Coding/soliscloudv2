@@ -246,6 +246,36 @@
           "label": "EPM searchinfo (comma separated)",
           "sm": 12,
           "newLine": true
+        },
+        "dataMode": {
+          "type": "select",
+          "label": {
+            "de": "Speichermodus",
+            "en": "Storage mode"
+          },
+          "help": {
+            "de": "'Nur Summen' speichert nur Realtime + Tages-/Monats-/Jahressummen (keine Tageskurven data.*). 'Voll' lädt zusätzlich Kurven/Charts.",
+            "en": "'Summary only' stores realtime + daily/monthly/yearly totals (no curve data.*). 'Full' also loads curves/charts."
+          },
+          "options": [
+            {
+              "label": {
+                "de": "Nur Summen (empfohlen)",
+                "en": "Summary only (recommended)"
+              },
+              "value": "summary"
+            },
+            {
+              "label": {
+                "de": "Voll (inkl. Kurven)",
+                "en": "Full (incl. curves)"
+              },
+              "value": "full"
+            }
+          ],
+          "default": "summary",
+          "sm": 12,
+          "md": 6
         }
       }
     },
