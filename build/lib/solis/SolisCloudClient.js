@@ -9,7 +9,7 @@ class SolisCloudClient {
     this.http = axios.create({
       baseURL: String(opt.baseUrl || "").replace(/\/+$/, ""),
       timeout: opt.timeoutMs ?? 20000,
-      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      headers: { "Content-Type": contentType },
       validateStatus: () => true
     });
   }
@@ -17,13 +17,14 @@ class SolisCloudClient {
   async post(path, body = {}) {
     const canonicalizedResource = path.startsWith("/") ? path : `/${path}`;
     const jsonBody = JSON.stringify(body ?? {});
+    const contentType = contentType;
     const contentMd5 = this.computeContentMd5(jsonBody);
     const date = this.gmtNowString();
 
     const signPayload = [
       "POST",
       contentMd5,
-      "application/json;charset=UTF-8",
+      contentType,
       date,
       canonicalizedResource
     ].join("\n");

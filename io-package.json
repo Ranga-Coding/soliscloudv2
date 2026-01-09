@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "soliscloudv2",
-    "version": "0.0.1",
+    "version": "0.0.3",
     "title": "SolisCloudV2",
     "desc": {
       "de": "Liest SolisCloud API Daten und legt alle Parameter als States ab",
@@ -20,7 +20,10 @@
       "inverter",
       "cloud"
     ],
-    "extIcon": ""
+    "extIcon": "",
+    "adminUI": {
+      "config": "json"
+    }
   },
   "native": {
     "apiId": "",
