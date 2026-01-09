@@ -65,7 +65,18 @@ class SolisCloudClient {
   }
 
   gmtNowString() {
-    return new Date().toUTCString().replace("UTC", "GMT");
+    // Solis doc format: "EEE, d MMM yyyy HH:mm:ss 'GMT'" (Locale.US, GMT), day without leading zero
+    const d = new Date();
+    const days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const dow = days[d.getUTCDay()];
+    const day = String(d.getUTCDate()); // no pad
+    const mon = months[d.getUTCMonth()];
+    const yyyy = d.getUTCFullYear();
+    const hh = String(d.getUTCHours()).padStart(2, "0");
+    const mm = String(d.getUTCMinutes()).padStart(2, "0");
+    const ss = String(d.getUTCSeconds()).padStart(2, "0");
+    return `${dow}, ${day} ${mon} ${yyyy} ${hh}:${mm}:${ss} GMT`;
   }
 }
 
