@@ -223,6 +223,29 @@
           "default": false,
           "sm": 12,
           "md": 6
+        },
+        "pageSize": {
+          "type": "number",
+          "min": 1,
+          "max": 100,
+          "label": "Page size (max 100)",
+          "sm": 6
+        },
+        "money": {
+          "type": "text",
+          "label": "Currency (money) (e.g. EUR)",
+          "sm": 6
+        },
+        "timeZone": {
+          "type": "number",
+          "label": "Time zone (e.g. 8)",
+          "sm": 6
+        },
+        "epmSearchInfo": {
+          "type": "text",
+          "label": "EPM searchinfo (comma separated)",
+          "sm": 12,
+          "newLine": true
         }
       }
     },
@@ -258,6 +281,26 @@
           },
           "sm": 12,
           "md": 12
+        },
+        "epmSNs": {
+          "type": "text",
+          "label": "EPM SNs (comma separated)",
+          "sm": 12
+        },
+        "collectorSNs": {
+          "type": "text",
+          "label": "Collector SNs (comma separated)",
+          "sm": 12
+        },
+        "weatherSNs": {
+          "type": "text",
+          "label": "Weather device SNs (comma separated)",
+          "sm": 12
+        },
+        "ammeterSNs": {
+          "type": "text",
+          "label": "Ammeter/Meter SNs (comma separated)",
+          "sm": 12
         }
       }
     },
@@ -339,6 +382,111 @@
           "default": false,
           "sm": 12,
           "md": 6
+        },
+        "enableStationDetailList": {
+          "type": "checkbox",
+          "label": "Enable stationDetailList (batch)",
+          "sm": 6
+        },
+        "enableStationMonth": {
+          "type": "checkbox",
+          "label": "Enable stationMonth",
+          "sm": 6
+        },
+        "enableStationYear": {
+          "type": "checkbox",
+          "label": "Enable stationYear",
+          "sm": 6
+        },
+        "enableStationAll": {
+          "type": "checkbox",
+          "label": "Enable stationAll",
+          "sm": 6
+        },
+        "enableInverterDetailList": {
+          "type": "checkbox",
+          "label": "Enable inverterDetailList (batch)",
+          "sm": 6
+        },
+        "enableInverterMonth": {
+          "type": "checkbox",
+          "label": "Enable inverterMonth",
+          "sm": 6
+        },
+        "enableInverterYear": {
+          "type": "checkbox",
+          "label": "Enable inverterYear",
+          "sm": 6
+        },
+        "enableEpmList": {
+          "type": "checkbox",
+          "label": "Enable epmList",
+          "sm": 6
+        },
+        "enableEpmDetail": {
+          "type": "checkbox",
+          "label": "Enable epmDetail",
+          "sm": 6
+        },
+        "enableEpmDay": {
+          "type": "checkbox",
+          "label": "Enable epm/day",
+          "sm": 6
+        },
+        "enableEpmMonth": {
+          "type": "checkbox",
+          "label": "Enable epm/month",
+          "sm": 6
+        },
+        "enableEpmYear": {
+          "type": "checkbox",
+          "label": "Enable epm/year",
+          "sm": 6
+        },
+        "enableEpmAll": {
+          "type": "checkbox",
+          "label": "Enable epm/all",
+          "sm": 6
+        },
+        "enableCollectorList": {
+          "type": "checkbox",
+          "label": "Enable collectorList",
+          "sm": 6
+        },
+        "enableCollectorDetail": {
+          "type": "checkbox",
+          "label": "Enable collectorDetail",
+          "sm": 6
+        },
+        "enableCollectorSignal": {
+          "type": "checkbox",
+          "label": "Enable collector/signal",
+          "sm": 6
+        },
+        "enableCollectorDay": {
+          "type": "checkbox",
+          "label": "Enable collector/day",
+          "sm": 6
+        },
+        "enableWeatherList": {
+          "type": "checkbox",
+          "label": "Enable weatherList",
+          "sm": 6
+        },
+        "enableWeatherDetail": {
+          "type": "checkbox",
+          "label": "Enable weatherDetail",
+          "sm": 6
+        },
+        "enableAmmeterList": {
+          "type": "checkbox",
+          "label": "Enable ammeterList",
+          "sm": 6
+        },
+        "enableAmmeterDetail": {
+          "type": "checkbox",
+          "label": "Enable ammeterDetail",
+          "sm": 6
         }
       }
     }
