@@ -1,8 +1,11 @@
 {
   "common": {
     "name": "soliscloudv2",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "title": "SolisCloudV2",
+     "adminUI": {
+    "config": "json"
+    },
     "desc": {
       "de": "Liest SolisCloud API Daten und legt alle Parameter als States ab",
       "en": "Reads SolisCloud API data and stores all parameters as states"
