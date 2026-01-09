@@ -6,6 +6,18 @@ const axios = require("axios");
 // Must be EXACTLY identical in signature string and in HTTP header
 const CONTENT_TYPE = "application/json;charset=UTF-8";
 
+// Deterministic JSON stringify (sorted keys) to match server-side canonicalization if present
+function stableStringify(value) {
+  if (value === null || value === undefined) return "null";
+  if (Array.isArray(value)) return "[" + value.map(stableStringify).join(",") + "]";
+  if (typeof value === "object") {
+    const keys = Object.keys(value).sort();
+    const parts = keys.map((k) => JSON.stringify(k) + ":" + stableStringify(value[k]));
+    return "{" + parts.join(",") + "}";
+  }
+  return JSON.stringify(value);
+}
+
 class SolisCloudClient {
   constructor(opt) {
     this.opt = opt;
@@ -19,7 +31,7 @@ class SolisCloudClient {
 
   async post(path, body = {}) {
     const canonicalizedResource = path.startsWith("/") ? path : `/${path}`;
-    const jsonBody = JSON.stringify(body ?? {});
+    const jsonBody = stableStringify(body ?? {});
     const contentMd5 = this.computeContentMd5(jsonBody);
     const date = this.gmtNowString();
 

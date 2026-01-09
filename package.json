@@ -1,6 +1,6 @@
 {
   "name": "iobroker.soliscloudv2",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "ioBroker adapter for SolisCloudV2 API (polls all returned parameters and stores them as states)",
   "main": "build/main.js",
   "files": [
