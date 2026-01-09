@@ -41,7 +41,7 @@ class Soliscloud extends utils.Adapter {
       return;
     }
 
-    const client = new SolisCloudClient({ baseUrl, apiId, apiSecret, timeoutMs: requestTimeoutMs });
+    const client = new SolisCloudClient({ baseUrl, apiId, apiSecret, timeoutMs: requestTimeoutMs, contentTypeMode: this.config.contentTypeMode, debugSigning: this.config.debugSigning });
 
     const stations = this.config.stationIds
       ? String(this.config.stationIds).split(",").map(s => s.trim()).filter(Boolean)

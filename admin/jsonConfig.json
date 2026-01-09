@@ -29,7 +29,7 @@
             "en": "API Secret"
           },
           "help": {
-            "de": "API Secret (wird verschl\u00fcsselt gespeichert).",
+            "de": "API Secret (wird verschlüsselt gespeichert).",
             "en": "API Secret (stored encrypted)."
           },
           "sm": 12,
@@ -97,7 +97,7 @@
             "en": "Static data jitter (sec)"
           },
           "help": {
-            "de": "Zuf\u00e4llige Verz\u00f6gerung, um Lastspitzen zu vermeiden (bei mehreren Instanzen).",
+            "de": "Zufällige Verzögerung, um Lastspitzen zu vermeiden (bei mehreren Instanzen).",
             "en": "Random delay to avoid load spikes (multiple instances)."
           },
           "min": 0,
@@ -113,8 +113,8 @@
             "en": "Array storage mode"
           },
           "help": {
-            "de": "index: Arrays als .0 .1 .2\u2026 States; json: gesamtes Array als JSON-String.",
-            "en": "index: store arrays as .0 .1 .2\u2026 states; json: store whole array as JSON string."
+            "de": "index: Arrays als .0 .1 .2… States; json: gesamtes Array als JSON-String.",
+            "en": "index: store arrays as .0 .1 .2… states; json: store whole array as JSON string."
           },
           "options": [
             {
@@ -291,8 +291,50 @@
             "en": "Log raw responses (debug)"
           },
           "help": {
-            "de": "Kann Logs sehr gro\u00df machen. Nur zur Fehlersuche.",
+            "de": "Kann Logs sehr groß machen. Nur zur Fehlersuche.",
             "en": "May produce very large logs. Use only for troubleshooting."
+          },
+          "default": false,
+          "sm": 12,
+          "md": 6
+        },
+        "contentTypeMode": {
+          "type": "select",
+          "label": {
+            "de": "Content-Type für Signatur",
+            "en": "Content-Type for signature"
+          },
+          "help": {
+            "de": "Einige SolisCloud-Instanzen erwarten 'application/json' statt 'application/json;charset=UTF-8'. 'auto' probiert beides (Fallback bei 403 wrong sign).",
+            "en": "Some SolisCloud instances expect 'application/json' instead of 'application/json;charset=UTF-8'. 'auto' tries both (fallback on 403 wrong sign)."
+          },
+          "options": [
+            {
+              "label": "auto",
+              "value": "auto"
+            },
+            {
+              "label": "application/json;charset=UTF-8",
+              "value": "withCharset"
+            },
+            {
+              "label": "application/json",
+              "value": "noCharset"
+            }
+          ],
+          "default": "auto",
+          "sm": 12,
+          "md": 6
+        },
+        "debugSigning": {
+          "type": "checkbox",
+          "label": {
+            "de": "Signatur-Debug (ohne Secret)",
+            "en": "Signing debug (without secret)"
+          },
+          "help": {
+            "de": "Loggt Content-MD5, Date, Resource und den Sign-String (ohne ApiSecret). Nur zur Fehlersuche.",
+            "en": "Logs Content-MD5, Date, Resource and the signing string (without apiSecret). For troubleshooting only."
           },
           "default": false,
           "sm": 12,

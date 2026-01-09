@@ -3,10 +3,13 @@
 const crypto = require("node:crypto");
 const axios = require("axios");
 
-// Must be EXACTLY identical in signature string and in HTTP header
-const CONTENT_TYPE = "application/json;charset=UTF-8";
+// Some SolisCloud gateways are picky about the Content-Type string used in the signature.
+// The document contains examples with "application/json" and a standard format with "application/json;charset=UTF-8" fileciteturn1file0.
+// We support auto-fallback.
+const CT_WITH_CHARSET = "application/json;charset=UTF-8";
+const CT_NO_CHARSET = "application/json";
 
-// Deterministic JSON stringify (sorted keys) to match server-side canonicalization if present
+// Deterministic JSON stringify (sorted keys) to reduce signature mismatches if server canonicalizes JSON.
 function stableStringify(value) {
   if (value === null || value === undefined) return "null";
   if (Array.isArray(value)) return "[" + value.map(stableStringify).join(",") + "]";
@@ -21,15 +24,46 @@ function stableStringify(value) {
 class SolisCloudClient {
   constructor(opt) {
     this.opt = opt;
+    this.mode = String(opt.contentTypeMode || "auto"); // auto|withCharset|noCharset
+    this.debugSigning = !!opt.debugSigning;
+
+    // Axios default content type; may be overridden per request.
     this.http = axios.create({
       baseURL: String(opt.baseUrl || "").replace(/\/+$/, ""),
       timeout: opt.timeoutMs ?? 20000,
-      headers: { "Content-Type": CONTENT_TYPE },
+      headers: { "Content-Type": CT_WITH_CHARSET },
       validateStatus: () => true
     });
   }
 
   async post(path, body = {}) {
+    // try primary + (optional) fallback
+    const tries = this.getContentTypeTries();
+    let lastErr;
+
+    for (let i = 0; i < tries.length; i++) {
+      const ct = tries[i];
+      try {
+        return await this.postWithContentType(ct, path, body);
+      } catch (e) {
+        lastErr = e;
+        // only retry on explicit wrong sign
+        const msg = String(e?.message || "");
+        const isWrongSign = msg.includes("wrong sign") || msg.includes('"wrong sign"');
+        if (!isWrongSign || i === tries.length - 1) throw e;
+      }
+    }
+    throw lastErr || new Error("Request failed");
+  }
+
+  getContentTypeTries() {
+    if (this.mode === "withCharset") return [CT_WITH_CHARSET];
+    if (this.mode === "noCharset") return [CT_NO_CHARSET];
+    // auto
+    return [CT_WITH_CHARSET, CT_NO_CHARSET];
+  }
+
+  async postWithContentType(contentType, path, body) {
     const canonicalizedResource = path.startsWith("/") ? path : `/${path}`;
     const jsonBody = stableStringify(body ?? {});
     const contentMd5 = this.computeContentMd5(jsonBody);
@@ -38,7 +72,7 @@ class SolisCloudClient {
     const signPayload = [
       "POST",
       contentMd5,
-      CONTENT_TYPE,
+      contentType,
       date,
       canonicalizedResource
     ].join("\n");
@@ -46,10 +80,17 @@ class SolisCloudClient {
     const sign = this.hmacSha1Base64(this.opt.apiSecret, signPayload);
     const authorization = `API ${this.opt.apiId}:${sign}`;
 
+    if (this.debugSigning) {
+      // Do NOT log apiSecret; safe to log payload + md5 + date + resource.
+      // Note: Sign is derived from secret; logging it may be ok but we keep it out for safety.
+      // eslint-disable-next-line no-console
+      console.debug(`[soliscloudv2] signing debug ct="${contentType}" md5="${contentMd5}" date="${date}" res="${canonicalizedResource}" payload="${signPayload.replace(/\n/g, "\\n")}"`);
+    }
+
     const res = await this.http.post(canonicalizedResource, jsonBody, {
       headers: {
         "Content-MD5": contentMd5,
-        "Content-Type": CONTENT_TYPE,
+        "Content-Type": contentType,
         "Date": date,
         "Authorization": authorization
       }
@@ -77,7 +118,7 @@ class SolisCloudClient {
   }
 
   gmtNowString() {
-    // Solis doc format: "EEE, d MMM yyyy HH:mm:ss 'GMT'" (Locale.US, GMT), day without leading zero
+    // Doc format: "EEE, d MMM yyyy HH:mm:ss 'GMT'" (Locale.US, GMT), day without leading zero fileciteturn1file0
     const d = new Date();
     const days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
     const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
