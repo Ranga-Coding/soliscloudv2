@@ -10,6 +10,8 @@ class Poller {
     this.client = client;
     this.cfg = cfg;
     this.writer = new StateWriter(adapter);
+    this.realtimeCount = 0;
+    this.staticCount = 0;
     this.realtimeTimer = undefined;
     this.staticTimer = undefined;
     this.cache = { stationIds: [], inverterSNs: [], epmSNs: [], collectorSNs: [], weatherSNs: [], ammeterSNs: [] };
@@ -18,6 +20,11 @@ class Poller {
   start() {
     const runRealtime = async () => {
       try {
+        this.realtimeCount++;
+        const now = Date.now();
+        await this.adapter.setStateAsync("info.lastRealtimePollTs", { val: now, ack: true });
+        await this.adapter.setStateAsync("info.lastRealtimePollIso", { val: new Date(now).toISOString(), ack: true });
+        await this.adapter.setStateAsync("info.realtimePollCount", { val: this.realtimeCount, ack: true });
         await this.pollRealtime();
       } catch (e) {
         this.adapter.log.warn(`Realtime poll failed: ${e?.message ?? e}`);
@@ -29,6 +36,11 @@ class Poller {
 
     const runStatic = async () => {
       try {
+        this.staticCount++;
+        const now = Date.now();
+        await this.adapter.setStateAsync("info.lastStaticPollTs", { val: now, ack: true });
+        await this.adapter.setStateAsync("info.lastStaticPollIso", { val: new Date(now).toISOString(), ack: true });
+        await this.adapter.setStateAsync("info.staticPollCount", { val: this.staticCount, ack: true });
         await this.pollStatic();
       } catch (e) {
         this.adapter.log.warn(`Static poll failed: ${e?.message ?? e}`);

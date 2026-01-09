@@ -32,6 +32,38 @@ class Soliscloud extends utils.Adapter {
       common: { name: "Connection", type: "boolean", role: "indicator.connected", read: true, write: false },
       native: {}
     });
+    await this.setObjectNotExistsAsync("info.lastRealtimePollTs", {
+      type: "state",
+      common: { name: "Last realtime poll timestamp (ms)", type: "number", role: "value.time", read: true, write: false },
+      native: {}
+    });
+    await this.setObjectNotExistsAsync("info.lastRealtimePollIso", {
+      type: "state",
+      common: { name: "Last realtime poll timestamp (ISO)", type: "string", role: "text", read: true, write: false },
+      native: {}
+    });
+    await this.setObjectNotExistsAsync("info.realtimePollCount", {
+      type: "state",
+      common: { name: "Realtime poll count since start", type: "number", role: "value", read: true, write: false },
+      native: {}
+    });
+
+    await this.setObjectNotExistsAsync("info.lastStaticPollTs", {
+      type: "state",
+      common: { name: "Last static poll timestamp (ms)", type: "number", role: "value.time", read: true, write: false },
+      native: {}
+    });
+    await this.setObjectNotExistsAsync("info.lastStaticPollIso", {
+      type: "state",
+      common: { name: "Last static poll timestamp (ISO)", type: "string", role: "text", read: true, write: false },
+      native: {}
+    });
+    await this.setObjectNotExistsAsync("info.staticPollCount", {
+      type: "state",
+      common: { name: "Static poll count since start", type: "number", role: "value", read: true, write: false },
+      native: {}
+    });
+
     this.setState("info.connection", false, true);
 
     const apiId = String(this.config.apiId ?? "").trim();
